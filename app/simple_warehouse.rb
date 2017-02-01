@@ -15,7 +15,7 @@ class SimpleWarehouse
         when /init\s(.*)\s(.*)/
           shelves = Shelves.new($1.to_i, $2.to_i)
         when /store\s(.*)\s(.*)\s(.*)\s(.*)\s(.)/
-          shelves.store($1.to_i, $2.to_i, Crate.new($3.to_i, $4.to_i, $5))
+          store(shelves, $1.to_i, $2.to_i, $3.to_i, $4.to_i, $5)
         when 'view'
           view(shelves)
         when 'exit'
@@ -40,6 +40,12 @@ exit             Exits the application.'
 
   def show_unrecognized_message
     puts 'Command not found. Type `help` for instructions on usage'
+  end
+
+  def store(shelves, x, y, width, height, product_code)
+    shelves.store(x, y, Crate.new(width, height, product_code))
+  rescue => e
+    puts e.message
   end
 
   def view(shelves)
