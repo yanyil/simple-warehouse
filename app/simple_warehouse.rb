@@ -1,4 +1,5 @@
 require_relative 'shelves'
+require_relative 'crate'
 
 class SimpleWarehouse
 
@@ -13,6 +14,8 @@ class SimpleWarehouse
           show_help_message
         when /init\s(.*)\s(.*)/
           shelves = Shelves.new($1.to_i, $2.to_i)
+        when /store\s(.*)\s(.*)\s(.*)\s(.*)\s(.)/
+          shelves.store($1.to_i, $2.to_i, Crate.new($3.to_i, $4.to_i, $5))
         when 'view'
           view(shelves)
         when 'exit'

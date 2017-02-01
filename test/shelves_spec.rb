@@ -1,15 +1,31 @@
 require_relative 'test_helper'
 require './app/shelves'
+require './app/crate'
 
 describe Shelves do
   let(:shelves) { Shelves.new(4, 3) }
   let(:empty_shelves) { [[:O, :O, :O, :O],
                          [:O, :O, :O, :O],
                          [:O, :O, :O, :O]] }
+  let(:stored_shelves) { [[:O, :O, :O, :O],
+                          [:O, :X, :X, :O],
+                          [:O, :X, :X, :O]] }
+  let(:crate) { Crate.new(2, 2, "P") }
 
   describe '#state' do
-    it "returns the state of the shelves" do
+    it 'returns the state of the shelves' do
       shelves.state.must_equal empty_shelves
+    end
+  end
+
+  describe '#store' do
+    it 'stores a crate' do
+      crate.stub :width, 2 do
+        crate.stub :height, 2 do
+          shelves.store(1, 1, crate)
+          shelves.state.must_equal stored_shelves
+        end
+      end
     end
   end
 end
