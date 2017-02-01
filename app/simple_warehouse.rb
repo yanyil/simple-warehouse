@@ -1,3 +1,5 @@
+require_relative 'shelves'
+
 class SimpleWarehouse
 
   def run
@@ -9,6 +11,10 @@ class SimpleWarehouse
       case command
         when 'help'
           show_help_message
+        when /init\s(.*)\s(.*)/
+          shelves = Shelves.new($1.to_i, $2.to_i)
+        when 'view'
+          view(shelves)
         when 'exit'
           exit
         else
@@ -31,6 +37,15 @@ exit             Exits the application.'
 
   def show_unrecognized_message
     puts 'Command not found. Type `help` for instructions on usage'
+  end
+
+  def view(shelves)
+    (shelves.height - 1).downto(0) do |i|
+      0.upto(shelves.width - 1) do |j|
+        print shelves.state[i][j]
+      end
+      puts "\n"
+    end
   end
 
   def exit
