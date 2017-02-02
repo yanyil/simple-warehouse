@@ -38,4 +38,13 @@ describe Shelves do
       e.message.must_equal "Cannot store crate: crate doesn't fit"
     end
   end
+
+  describe '#locate' do
+    it 'returns a list of positions where a given product code can be found' do
+      crate.stub :product_code, "P" do
+        shelves.store(1, 1, crate)
+        shelves.locate("P").must_equal [[1, 1]]
+      end
+    end
+  end
 end

@@ -16,6 +16,8 @@ class SimpleWarehouse
           shelves = Shelves.new($1.to_i, $2.to_i)
         when /store\s(.*)\s(.*)\s(.*)\s(.*)\s(.)/
           store(shelves, $1.to_i, $2.to_i, $3.to_i, $4.to_i, $5)
+        when /locate\s(.)/
+          locate(shelves, $1)
         when 'view'
           view(shelves)
         when 'exit'
@@ -46,6 +48,13 @@ exit             Exits the application.'
     shelves.store(x, y, Crate.new(width, height, product_code))
   rescue => e
     puts e.message
+  end
+
+  def locate(shelves, product_code)
+    shelves.locate(product_code).each do |position|
+      print position
+      puts "\n"
+    end
   end
 
   def view(shelves)

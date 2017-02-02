@@ -1,5 +1,6 @@
 class Crate
   attr_reader :width, :height, :product_code
+  attr_accessor :position
 
   def initialize(width, height, product_code)
     @width = width
