@@ -50,8 +50,8 @@ class Shelves
   attr_accessor :positions
 
   def each_crate_position(x, y, crate)
-    x.upto(x + crate.width - 1) do |i|
-      y.upto(y + crate.height - 1) do |j|
+    for i in x...(x + crate.width)
+      for j in y...(y + crate.height)
         yield(i, j)
       end
     end
