@@ -1,4 +1,5 @@
 class Shelves
+
   EMPTY = :O
   FILLED = :X
 
@@ -21,6 +22,7 @@ class Shelves
     end
     crate.position = [x, y]
     crates << crate
+    crate
   end
 
   def locate(product_code)
@@ -32,8 +34,8 @@ class Shelves
   end
 
   def remove(x, y)
+    raise "Cannot remove crate: crate doesn't exist" unless crate?(x, y)
     crate = positions[y][x]
-    raise "Cannot remove crate: crate doesn't exist" unless crate
     each_crate_position(crate.position[0], crate.position[1], crate) do |i, j|
       state[j][i] = EMPTY
       positions[j][i] = nil
@@ -66,4 +68,9 @@ class Shelves
     end
     true
   end
+
+  def crate?(x, y)
+    positions[y] && positions[y][x]
+  end
+
 end

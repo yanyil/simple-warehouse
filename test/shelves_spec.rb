@@ -3,6 +3,7 @@ require './app/shelves'
 require './app/crate'
 
 describe Shelves do
+
   let(:shelves) { Shelves.new(4, 3) }
   let(:empty_shelves) { [[:O, :O, :O, :O],
                          [:O, :O, :O, :O],
@@ -69,4 +70,5 @@ describe Shelves do
       end
     end
   end
+
 end

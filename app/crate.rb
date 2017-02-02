@@ -1,4 +1,5 @@
 class Crate
+
   attr_reader :width, :height, :product_code
   attr_accessor :position
 
@@ -7,4 +8,5 @@ class Crate
     @height = height
     @product_code = product_code
   end
+
 end
