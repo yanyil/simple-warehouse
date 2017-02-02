@@ -47,4 +47,26 @@ describe Shelves do
       end
     end
   end
+
+  describe '#remove' do
+    it 'removes a crate' do
+      crate.stub :width, 2 do
+        crate.stub :height, 2 do
+          shelves.store(1, 1, crate)
+          shelves.remove(1, 1)
+          shelves.state.must_equal empty_shelves
+        end
+      end
+    end
+
+    it 'raises an error when crate does not exist' do
+      crate.stub :width, 2 do
+        crate.stub :height, 2 do
+          shelves.store(1, 1, crate)
+          e = proc { shelves.remove(0, 0) }.must_raise(RuntimeError)
+          e.message.must_equal "Cannot remove crate: crate doesn't exist"
+        end
+      end
+    end
+  end
 end

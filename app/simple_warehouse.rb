@@ -18,6 +18,8 @@ class SimpleWarehouse
           store(shelves, $1.to_i, $2.to_i, $3.to_i, $4.to_i, $5)
         when /locate\s(.)/
           locate(shelves, $1)
+        when /remove\s(.*)\s(.*)/
+          remove(shelves, $1.to_i, $2.to_i)
         when 'view'
           view(shelves)
         when 'exit'
@@ -55,6 +57,12 @@ exit             Exits the application.'
       print position
       puts "\n"
     end
+  end
+
+  def remove(shelves, x, y)
+    shelves.remove(x, y)
+  rescue => error
+    puts error.message
   end
 
   def view(shelves)

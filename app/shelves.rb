@@ -15,9 +15,9 @@ class Shelves
   def store(x, y, crate)
     raise "Cannot store crate: position doesn't exist" unless position?(x, y)
     raise "Cannot store crate: crate doesn't fit" unless fit?(x, y, crate)
-    each_crate_positions(x, y, crate) do |i, j|
-      state[i][j] = FILLED
-      positions[i][j] = crate
+    each_crate_position(x, y, crate) do |i, j|
+      state[j][i] = FILLED
+      positions[j][i] = crate
     end
     crate.position = [x, y]
     crates << crate
@@ -31,13 +31,25 @@ class Shelves
     output
   end
 
+  def remove(x, y)
+    crate = positions[y][x]
+    raise "Cannot remove crate: crate doesn't exist" unless crate
+    each_crate_position(crate.position[0], crate.position[1], crate) do |i, j|
+      state[j][i] = EMPTY
+      positions[j][i] = nil
+    end
+    crate.position = nil
+    crates.delete(crate)
+  end
+
   private
 
-  attr_accessor :positions, :crates
+  attr_reader :crates
+  attr_accessor :positions
 
-  def each_crate_positions(x, y, crate)
-    y.upto(y + crate.height - 1) do |i|
-      x.upto(x + crate.width - 1) do |j|
+  def each_crate_position(x, y, crate)
+    x.upto(x + crate.width - 1) do |i|
+      y.upto(y + crate.height - 1) do |j|
         yield(i, j)
       end
     end
@@ -49,8 +61,8 @@ class Shelves
 
   def fit?(x, y, crate)
     return false if x + crate.width > width || y + crate.height > height
-    each_crate_positions(x, y, crate) do |i, j|
-      return false if positions[i][j]
+    each_crate_position(x, y, crate) do |i, j|
+      return false if positions[j][i]
     end
     true
   end
