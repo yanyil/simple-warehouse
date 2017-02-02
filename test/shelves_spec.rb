@@ -32,5 +32,10 @@ describe Shelves do
       e = proc { shelves.store(4, 4, crate) }.must_raise(RuntimeError)
       e.message.must_equal "Cannot store crate: position doesn't exist"
     end
+
+    it 'raises an error when crate does not fit' do
+      e = proc { shelves.store(3, 1, crate) }.must_raise(RuntimeError)
+      e.message.must_equal "Cannot store crate: crate doesn't fit"
+    end
   end
 end
